@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GraduationCap, Users, Shield, BarChart3 } from "lucide-react";
 import RoleSelector from "../components/RoleSelector";
 import LoginForm from "../components/LoginForm";
@@ -53,7 +53,6 @@ export const LandingPage = () => {
   const [selectedRole, setSelectedRole] = useState<"student" | "teacher" | null>(
     null
   );
-
   const [showModal, setShowModal] = useState(false);
 
   const handleAuthClick = (type: "login" | "signup") => {
@@ -67,6 +66,15 @@ export const LandingPage = () => {
     setAuthType(null);
     setSelectedRole(null);
   };
+
+  // prevent scroll when modal is open
+  useEffect(() => {
+    if (showModal) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }, [showModal]);
 
   return (
     <div className="relative min-h-screen bg-[#0c0f17] font-opensans text-white overflow-x-hidden">
@@ -203,7 +211,7 @@ export const LandingPage = () => {
 
       {/* Auth Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-[#191b22] rounded-2xl p-8 w-full max-w-md relative shadow-lg">
             {/* Close button */}
             <button
